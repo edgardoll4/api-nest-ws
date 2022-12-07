@@ -400,6 +400,21 @@ if (error.status === 400) {
   //     });
   // }
 
+  
+    async findAllBusinnes( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const businnes = await this.logFailRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+     return businnes.map ( ithemesBusinnes => ({
+      ...ithemesBusinnes,
+    }) )
+  }
 
   async findOne( term: string ) {
 
