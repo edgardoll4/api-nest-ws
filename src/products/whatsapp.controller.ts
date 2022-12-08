@@ -124,7 +124,7 @@ export class WhatsappController {
 
   @Get('list-businnes/:term')
   findOne(@Param( 'term' ) term: string) {
-    return this.chatService.findOne( term );
+    return this.chatService.findOneBusinnes( term );
   }
 
   // @Patch('list-businnes/:id')

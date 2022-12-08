@@ -431,7 +431,6 @@ if (error.status === 400) {
         }).getOne();
     }
 
-
     if ( !product ) 
       throw new NotFoundException(`Product with ${ term } not found`);
 
