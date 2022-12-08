@@ -108,10 +108,16 @@ export class WhatsappController {
     return this.chatService.findLengthMessages();
   }
 
-  @Get('list-businnes')
+ @Get('list-businnes')
   findAllBusinnes( @Query() paginationDto:PaginationDto ) {
     // console.log(paginationDto)
     return this.chatService.findAllBusinnes( paginationDto );
+  }
+
+ @Get('list-error')
+  findAllError( @Query() paginationDto:PaginationDto ) {
+    // console.log(paginationDto)
+    return this.chatService.findAllError( paginationDto );
   }
 
   // @Get(':term')
