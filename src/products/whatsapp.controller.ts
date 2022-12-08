@@ -120,22 +120,24 @@ export class WhatsappController {
     return this.chatService.findAllError( paginationDto );
   }
 
-  // @Get(':term')
-  // findOne(@Param( 'term' ) term: string) {
-  //   return this.chatService.findOne( term );
-  // }
 
-  // @Patch(':id')
-  // update(
+
+  @Get('list-businnes/:term')
+  findOne(@Param( 'term' ) term: string) {
+    return this.chatService.findOne( term );
+  }
+
+  // @Patch('list-businnes/:id')
+  // updateBusinnes(
   //   @Param('id', ParseUUIDPipe ) id: string, 
   //   @Body() updateProductDto: UpdateChatDto
   // ) {
-  //   return this.chatService.update( id, updateProductDto );
+  //   return this.chatService.updateBusinnes( id, updateProductDto );
   // }
 
-  // @Delete(':id')
+  // @DeleteBusinnes('list-businnes/:id')
   // remove(@Param('id', ParseUUIDPipe ) id: string) {
-  //   return this.chatService.remove( id );
+  //   return this.chatService.removeBusinnes( id );
   // }
   
 }

@@ -17,7 +17,7 @@ import { WhatsappCloudAPIResponse } from 'src/common/whatsapp-cloud-api-response
 import { BASEURL } from 'src/common/api-resource';
 import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
-import { Apiws } from './entities/api_ws.entity';
+import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
 
 
@@ -46,8 +46,8 @@ export class WhatsappService {
     private readonly httpService:HttpService,
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
-    @InjectRepository(Apiws)
-    private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
+    @InjectRepository(ApiWs)
+    private readonly apiWsRepository: Repository<ApiWs>, //variable para regsitar API Ws
     @InjectRepository(LogFail)
     private readonly logFailRepository: Repository<LogFail>, //variable para regsitar API Ws
 
@@ -400,22 +400,6 @@ if (error.status === 400) {
   //     });
   // }
 
-  
-    async findAllBusinnes( paginationDto: PaginationDto ) {
-
-    const { limit , offset } = paginationDto;
-
-    const businnes = await this.apiWsRepository.find({
-      take: limit,
-      skip: offset,
-      // TODO: relaciones
-    })
-
-     return businnes.map ( itemsBusinnes => ({
-      ...itemsBusinnes,
-    }) )
-  }
-
 
     async findAllError( paginationDto: PaginationDto ) {
 
@@ -473,12 +457,73 @@ if (error.status === 400) {
 
   }
 
-  async remove(id: string) {
-    const product = await this.findOne( id );
-    await this.chatRepository.remove( product );
-    
+  // ################### Fuciones para el manejo de los datos de Business ############################
+
+  async findAllBusinnes( paginationDto: PaginationDto ) {
+
+    const { limit , offset } = paginationDto;
+
+    const businnes = await this.apiWsRepository.find({
+      take: limit,
+      skip: offset,
+      // TODO: relaciones
+    })
+
+     return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
+    }) )
   }
 
+
+  async findOneBusinnes( term: string ) {
+
+    let businne: ApiWs;
+
+    if ( isUUID(term) ) {
+      businne = await this.apiWsRepository.findOneBy({ id: term });
+    } else {
+      const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
+      businne = await queryBuilder
+        .where('UPPER(phone_api) =:phone_api or slug_businnes =:slug_businnes', {
+          title: term.toUpperCase(),
+          slug: term.toLowerCase(),
+        }).getOne();
+    }
+
+
+    if ( !businne ) 
+      throw new NotFoundException(`Businne with ${ term } not found`);
+
+    return businne;
+  }
+
+//   async updateBusinnes( id: string, updateProductDto: UpdateChatDto ) {
+
+//     const product = await this.apiWsRepository.preload({
+//       id: id,
+//       ...updateProductDto
+//     });
+
+//     if ( !product ) throw new NotFoundException(`Product with id: ${ id } not found`);
+
+//     try {
+//       await this.chatRepository.save( product );
+//       return product;
+      
+//     } catch (error) {
+//       this.handleDBExceptions(error);
+//     }
+
+//   }
+
+
+//   async removeBusinnes(id: string) {
+//     const product = await this.findOne( id );
+//     await this.chatRepository.remove( product );
+    
+//   }
+
+  // ################################################################################################
 
   private handleDBExceptions( error: any ) {
 
