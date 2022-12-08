@@ -37,15 +37,15 @@ export class WhatsappService {
     "to": "56957858732",
     "type": "text",
     "text": {
-        "body": "para mensajes"
+        "body": "mensaje de respuesta"
     }
   }
 
   constructor(
 
+    private readonly httpService:HttpService,
     @InjectRepository(Chat)
     private readonly chatRepository: Repository<Chat>,
-    private readonly httpService:HttpService,
     @InjectRepository(Apiws)
     private readonly apiWsRepository: Repository<Apiws>, //variable para regsitar API Ws
     @InjectRepository(LogFail)
@@ -405,14 +405,14 @@ if (error.status === 400) {
 
     const { limit , offset } = paginationDto;
 
-    const businnes = await this.logFailRepository.find({
+    const businnes = await this.apiWsRepository.find({
       take: limit,
       skip: offset,
       // TODO: relaciones
     })
 
-     return businnes.map ( ithemesBusinnes => ({
-      ...ithemesBusinnes,
+     return businnes.map ( itemsBusinnes => ({
+      ...itemsBusinnes,
     }) )
   }
 
