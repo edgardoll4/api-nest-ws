@@ -485,8 +485,8 @@ if (error.status === 400) {
       const queryBuilder = this.apiWsRepository.createQueryBuilder(); 
       businne = await queryBuilder
         .where('UPPER(phone_api) =:phone_api or slug_businnes =:slug_businnes', {
-          title: term.toUpperCase(),
-          slug: term.toLowerCase(),
+          phone_api: term.toUpperCase(),
+          slug_businnes: term.toLowerCase(),
         }).getOne();
     }
 
