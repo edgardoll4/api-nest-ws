@@ -517,7 +517,7 @@ if (error.status === 400) {
   }
 
   async removeBusinnes(id: string) {
-    const businne = await this.findOne( id );
+    const businne: any = await this.findOneBusinnes( id );
     await this.chatRepository.remove( businne );
     
   }
