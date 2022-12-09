@@ -19,6 +19,7 @@ import { AxiosResponse } from 'axios'
 import * as dayjs from 'dayjs'
 import { ApiWs } from './entities/api_ws.entity';
 import { LogFail } from './entities/log-fail.entity';
+import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
 
 @Injectable()
@@ -496,31 +497,31 @@ if (error.status === 400) {
     return businne;
   }
 
-//   async updateBusinnes( id: string, updateProductDto: UpdateChatDto ) {
+  async updateBusinnes( id: string, updateApiWsDto: UpdateApiWsDto ) {
 
-//     const product = await this.apiWsRepository.preload({
-//       id: id,
-//       ...updateProductDto
-//     });
+    const businne = await this.apiWsRepository.preload({
+      id: id,
+      ...updateApiWsDto
+    });
 
-//     if ( !product ) throw new NotFoundException(`Product with id: ${ id } not found`);
+    if ( !businne ) throw new NotFoundException(`Businne with id: ${ id } not found`);
 
-//     try {
-//       await this.chatRepository.save( product );
-//       return product;
+    try {
+      await this.chatRepository.save( businne );
+      return businne;
       
-//     } catch (error) {
-//       this.handleDBExceptions(error);
-//     }
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
 
-//   }
+  }
 
 
-//   async removeBusinnes(id: string) {
-//     const product = await this.findOne( id );
-//     await this.chatRepository.remove( product );
+  async removeBusinnes(id: string) {
+    const businne = await this.findOne( id );
+    await this.chatRepository.remove( businne );
     
-//   }
+  }
 
   // ################################################################################################
 

@@ -10,6 +10,7 @@ import { CreateConfirmationDto } from './dto/confirmation.dto';
 import { CreateNotificationDto } from './dto/notification.dto';
 import { CreateApiWSDto } from './dto/create-api-ws.dto';
 import { response } from 'express';
+import { UpdateApiWsDto } from './dto/update-api-ws.dto';
 
 @ApiTags('Chats')
 @Controller('chat')
@@ -108,7 +109,7 @@ export class WhatsappController {
     return this.chatService.findLengthMessages();
   }
 
- @Get('list-businnes')
+ @Get('businne-list')
   findAllBusinnes( @Query() paginationDto:PaginationDto ) {
     // console.log(paginationDto)
     return this.chatService.findAllBusinnes( paginationDto );
@@ -122,22 +123,22 @@ export class WhatsappController {
 
 
 
-  @Get('list-businnes/:term')
+  @Get('businne/:term')
   findOne(@Param( 'term' ) term: string) {
     return this.chatService.findOneBusinnes( term );
   }
 
-  // @Patch('list-businnes/:id')
-  // updateBusinnes(
-  //   @Param('id', ParseUUIDPipe ) id: string, 
-  //   @Body() updateProductDto: UpdateChatDto
-  // ) {
-  //   return this.chatService.updateBusinnes( id, updateProductDto );
-  // }
+  @Patch('businne/:id')
+  updateBusinnes(
+    @Param('id', ParseUUIDPipe ) id: string, 
+    @Body() updateApiWsDto: UpdateApiWsDto,
+  ) {
+    return this.chatService.updateBusinnes( id, updateApiWsDto );
+  }
 
-  // @DeleteBusinnes('list-businnes/:id')
-  // remove(@Param('id', ParseUUIDPipe ) id: string) {
-  //   return this.chatService.removeBusinnes( id );
-  // }
+  @Delete('businne/:id')
+  removeBusinnes(@Param('id', ParseUUIDPipe ) id: string) {
+    return this.chatService.removeBusinnes( id );
+  }
   
 }
