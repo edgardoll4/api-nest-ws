@@ -77,30 +77,26 @@ export class WhatsappController {
       })
   }
 
- // ###################Creacion del POST de register APIs Ws##########################
- // ############################### Edgardo Lugo #####################################
+ // ################### Creacion de  los endpoint para la getion de APIs Ws ##########################
+ // ######################################## Edgardo Lugo ############################################
 
   @Post('registerapiwsclient')
-  createRegisterApiWsDB(
-    @Body() createRegisterApiWs:CreateApiWSDto)
-    {
-    
+  createRegisterApiWsDB(@Body() createRegisterApiWs:CreateApiWSDto) {
+      return  this.chatService.CreateRegisterApiWs(createRegisterApiWs).then( res => {
+        console.log('Se registro un nuevo negocio');
+        response.status(HttpStatus.CREATED).json(res);
+      }).catch((err) => {
+        console.log('Ocurrio un error al registrar negocio');        
+        response.status(HttpStatus.BAD_REQUEST).json(err);
+      });
 
-        return  this.chatService.CreateRegisterApiWs(createRegisterApiWs);
-
-        // try {
-
-        //     }
-        // } catch (error) {
 	
     }
-
-// ###################################################################################
-
-  @Get('list-messages')
-  findAll( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
-    return this.chatService.findAll( paginationDto );
+    
+    @Get('list-messages')
+    findAll( @Query() paginationDto:PaginationDto ) {
+      console.log('Se mostro listado de mensajes')
+      return this.chatService.findAll( paginationDto );
   }
 
   @Get('length-messages')
@@ -111,20 +107,17 @@ export class WhatsappController {
 
  @Get('businne-list')
   findAllBusinnes( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
     return this.chatService.findAllBusinnes( paginationDto );
   }
 
  @Get('list-error')
   findAllError( @Query() paginationDto:PaginationDto ) {
-    // console.log(paginationDto)
+    console.log('Se mostro listado de errores registrados en la base de datos');
     return this.chatService.findAllError( paginationDto );
   }
 
-
-
   @Get('businne/:term')
-  findOne(@Param( 'term' ) term: string) {
+  findOneBusinnes(@Param( 'term' ) term: string) {
     return this.chatService.findOneBusinnes( term );
   }
 
@@ -132,13 +125,15 @@ export class WhatsappController {
   updateBusinnes(
     @Param('id', ParseUUIDPipe ) id: string, 
     @Body() updateApiWsDto: UpdateApiWsDto,
-  ) {
+    ) {
     return this.chatService.updateBusinnes( id, updateApiWsDto );
   }
-
+  
   @Delete('businne/:id')
   removeBusinnes(@Param('id', ParseUUIDPipe ) id: string) {
     return this.chatService.removeBusinnes( id );
   }
   
 }
+
+  // ###################################################################################

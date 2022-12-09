@@ -54,24 +54,6 @@ export class WhatsappService {
 
   ) {}
 
-// ################# Guardado de los datos en la tabla de las APIs Ws###################
-// ############################### Edgardo Lugo ########################################
-
-  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
-    try {
-      const apiWs = this.apiWsRepository.create(createApiWsDot);
-      apiWs.create_data = Date.now().toString();
-      await this.apiWsRepository.save(apiWs);
-      console.log(apiWs);
-      return {apiWs};
-    } catch (error) {
-      this.handleDBExceptions(error)
-    }
-  }
-
-  //###################################################################################
-
-
   // ############# Guardado de los datos en la tabla de las Error Response#############
   // ############################### Edgardo Lugo #####################################
 
@@ -459,6 +441,19 @@ if (error.status === 400) {
 
   // ################### Fuciones para el manejo de los datos de Business ############################
 
+
+  async CreateRegisterApiWs(createApiWsDot:CreateApiWSDto){
+    try {
+      const apiWs = this.apiWsRepository.create(createApiWsDot);
+      apiWs.create_data = Date.now().toString();
+      await this.apiWsRepository.save(apiWs);
+      console.log(apiWs);
+      return {apiWs};
+    } catch (error) {
+      this.handleDBExceptions(error)
+    }
+  }
+
   async findAllBusinnes( paginationDto: PaginationDto ) {
 
     const { limit , offset } = paginationDto;
@@ -469,7 +464,8 @@ if (error.status === 400) {
       // TODO: relaciones
     })
 
-     return businnes.map ( itemsBusinnes => ({
+    console.log('Se mostro listado de negocios');
+    return businnes.map ( itemsBusinnes => ({
       ...itemsBusinnes,
     }) )
   }
@@ -491,8 +487,10 @@ if (error.status === 400) {
     }
 
 
-    if ( !businne ) 
+    if ( !businne ) {
+      console.log('Se mostro detalles del negocio con el termino de busqueda: ', term);
       throw new NotFoundException(`Businne with ${ term } not found`);
+    }
 
     return businne;
   }
@@ -508,6 +506,8 @@ if (error.status === 400) {
 
     try {
       await this.chatRepository.save( businne );
+      console.log('Se actulizaron los datos del negocio con el id: ', id, ' con los datos: ', updateApiWsDto);
+
       return businne;
       
     } catch (error) {
@@ -515,7 +515,6 @@ if (error.status === 400) {
     }
 
   }
-
 
   async removeBusinnes(id: string) {
     const businne = await this.findOne( id );
