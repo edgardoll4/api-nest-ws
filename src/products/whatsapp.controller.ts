@@ -89,7 +89,6 @@ export class WhatsappController {
         console.log('Ocurrio un error al registrar negocio');        
         response.status(HttpStatus.BAD_REQUEST).json(err);
       });
-
 	
     }
     
