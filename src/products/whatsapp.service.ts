@@ -517,9 +517,14 @@ if (error.status === 400) {
   }
 
   async removeBusinnes(id: string) {
-    const businne: any = await this.findOneBusinnes( id );
-    await this.chatRepository.remove( businne );
-    
+    const businne = await this.findOneBusinnes( id );
+    try {
+      await this.chatRepository.remove( businne );
+      console.log('Se elimino el negocio con el id: ', id);
+      return businne;
+    } catch (error) {
+      this.handleDBExceptions(error);
+    }
   }
 
   // ################################################################################################
