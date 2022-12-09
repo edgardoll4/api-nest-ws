@@ -517,9 +517,9 @@ if (error.status === 400) {
   }
 
   async removeBusinnes(id: string) {
-    const businne = await this.findOneBusinnes( id );
+    const businne: ApiWs = await this.findOneBusinnes( id );
     try {
-      await this.chatRepository.remove( businne );
+      await this.apiWsRepository.remove( businne );
       console.log('Se elimino el negocio con el id: ', id);
       return businne;
     } catch (error) {
