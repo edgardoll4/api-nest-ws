@@ -518,13 +518,13 @@ if (error.status === 400) {
 
   async removeBusinnes(id: string) {
     const businne: ApiWs = await this.findOneBusinnes( id );
-    try {
+    // try {
       await this.apiWsRepository.remove( businne );
       console.log('Se elimino el negocio con el id: ', id);
       return businne;
-    } catch (error) {
-      this.handleDBExceptions(error);
-    }
+    // } catch (error) {
+    //   this.handleDBExceptions(error);
+    // }
   }
 
   // ################################################################################################

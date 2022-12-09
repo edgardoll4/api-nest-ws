@@ -93,7 +93,7 @@ export class WhatsappController {
 	
     }
     
-    @Get('list-messages')
+  @Get('list-messages')
     findAll( @Query() paginationDto:PaginationDto ) {
       console.log('Se mostro listado de mensajes')
       return this.chatService.findAll( paginationDto );
